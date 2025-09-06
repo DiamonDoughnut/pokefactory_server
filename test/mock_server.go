@@ -39,8 +39,13 @@ func logRequest(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	
-	// Send success response
+	// Send appropriate response based on endpoint
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`{"status":"ok","message":"Request logged"}`))
+	
+	if strings.Contains(r.URL.Path, "/server/auth") {
+		w.Write([]byte(`{"token":"fake.jwt.token","expires_in":86400}`))
+	} else {
+		w.Write([]byte(`{"status":"ok","message":"Request logged"}`))
+	}
 }
