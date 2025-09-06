@@ -1,0 +1,91 @@
+{
+	"info": {
+		"name": "PokéFactory Server API Tests",
+		"description": "Complete API testing for server and web endpoints"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/health",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["health"]
+				}
+			}
+		},
+		{
+			"name": "Server Auth",
+			"request": {
+				"method": "POST",
+				"header": [{"key": "Content-Type", "value": "application/json"}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"server_id\": \"test-server-1\",\n  \"server_key\": \"your-jwt-secret\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/server/auth",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "server", "auth"]
+				}
+			}
+		},
+		{
+			"name": "Create Player",
+			"request": {
+				"method": "POST",
+				"header": [
+					{"key": "Content-Type", "value": "application/json"},
+					{"key": "Authorization", "value": "Bearer {{server_token}}"}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"player_uuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"username\": \"TestPlayer\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/server/player/create",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "server", "player", "create"]
+				}
+			}
+		},
+		{
+			"name": "Catch Pokémon",
+			"request": {
+				"method": "POST",
+				"header": [
+					{"key": "Content-Type", "value": "application/json"},
+					{"key": "Authorization", "value": "Bearer {{server_token}}"}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"player_uuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"national_id\": 25,\n  \"action\": \"catch\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/server/pokedex/update",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "server", "pokedex", "update"]
+				}
+			}
+		},
+		{
+			"name": "Web Leaderboards",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/web/leaderboards",
+					"host": ["localhost"],
+					"port": "8081",
+					"path": ["api", "v1", "web", "leaderboards"]
+				}
+			}
+		}
+	]
+}

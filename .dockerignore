@@ -1,0 +1,10 @@
+.git
+.gitignore
+README.md
+.env
+logs/
+*.log
+.DS_Store
+node_modules/
+previous_convo.txt
+minecraft-server-setup.md

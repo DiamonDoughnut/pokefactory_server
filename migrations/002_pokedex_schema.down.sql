@@ -1,0 +1,11 @@
+-- Drop regional pokedex tables
+DROP TABLE IF EXISTS player_pokedex_paldea;
+DROP TABLE IF EXISTS player_pokedex_hisui;
+DROP TABLE IF EXISTS player_pokedex_galar;
+DROP TABLE IF EXISTS player_pokedex_alola;
+DROP TABLE IF EXISTS player_pokedex_unova;
+DROP TABLE IF EXISTS player_pokedex_sinnoh;
+DROP TABLE IF EXISTS player_pokedex_hoenn;
+DROP TABLE IF EXISTS player_pokedex_johto;
+DROP TABLE IF EXISTS player_pokedex_kanto;
+DROP TABLE IF EXISTS player_pokedex_summary;
