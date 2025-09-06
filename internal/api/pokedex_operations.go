@@ -12,6 +12,7 @@ var regionTables = map[string]string{
 	"hoenn":  "player_pokedex_hoenn",
 	"sinnoh": "player_pokedex_sinnoh",
 	"unova":  "player_pokedex_unova",
+	"kalos":  "player_pokedex_kalos",
 	"alola":  "player_pokedex_alola",
 	"galar":  "player_pokedex_galar",
 	"hisui":  "player_pokedex_hisui",
@@ -24,10 +25,11 @@ var regionSizes = map[string]int{
 	"hoenn":  135,
 	"sinnoh": 107,
 	"unova":  156,
-	"alola":  81,
+	"kalos":  72,
+	"alola":  88,
 	"galar":  89,
-	"hisui":  242,
-	"paldea": 103,
+	"hisui":  7,
+	"paldea": 120,
 }
 
 // National dex number ranges for each region
@@ -37,9 +39,10 @@ var nationalDexRanges = map[string][2]int{
 	"hoenn":  {252, 386},
 	"sinnoh": {387, 493},
 	"unova":  {494, 649},
-	"alola":  {722, 802},
+	"kalos":  {650, 721},
+	"alola":  {722, 809},
 	"galar":  {810, 898},
-	"hisui":  {899, 905}, // Hisuian forms mapped to special range
+	"hisui":  {899, 905},
 	"paldea": {906, 1008},
 }
 
@@ -217,7 +220,7 @@ func (s *Server) updatePokedexSummaryStats(playerID int) error {
 		}
 	}
 
-	nationalPercent := float64(totalCaught) / 1064.0 * 100 // Total Pokémon across all regions
+	nationalPercent := float64(totalCaught) / 1018.0 * 100 // Total Pokémon across all regions
 
 	query := `
 		UPDATE player_pokedex_summary 

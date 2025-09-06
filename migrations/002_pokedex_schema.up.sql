@@ -72,11 +72,23 @@ CREATE TABLE IF NOT EXISTS player_pokedex_unova (
     UNIQUE(player_id)
 );
 
-CREATE TABLE IF NOT EXISTS player_pokedex_alola (
+CREATE TABLE IF NOT EXISTS player_pokedex_kalos (
     id SERIAL PRIMARY KEY,
     player_id INTEGER REFERENCES players(id) ON DELETE CASCADE,
     caught_flags BYTEA DEFAULT '\x0000000000000000000000000000000000000',
     seen_flags BYTEA DEFAULT '\x0000000000000000000000000000000000000',
+    completion_date TIMESTAMP WITH TIME ZONE,
+    completion_percentage DECIMAL(5,2) DEFAULT 0.00,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(player_id)
+);
+
+CREATE TABLE IF NOT EXISTS player_pokedex_alola (
+    id SERIAL PRIMARY KEY,
+    player_id INTEGER REFERENCES players(id) ON DELETE CASCADE,
+    caught_flags BYTEA DEFAULT '\x00000000000000000000000000000000000000000000',
+    seen_flags BYTEA DEFAULT '\x00000000000000000000000000000000000000000000',
     completion_date TIMESTAMP WITH TIME ZONE,
     completion_percentage DECIMAL(5,2) DEFAULT 0.00,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -128,6 +140,7 @@ CREATE INDEX IF NOT EXISTS idx_pokedex_johto_player_id ON player_pokedex_johto(p
 CREATE INDEX IF NOT EXISTS idx_pokedex_hoenn_player_id ON player_pokedex_hoenn(player_id);
 CREATE INDEX IF NOT EXISTS idx_pokedex_sinnoh_player_id ON player_pokedex_sinnoh(player_id);
 CREATE INDEX IF NOT EXISTS idx_pokedex_unova_player_id ON player_pokedex_unova(player_id);
+CREATE INDEX IF NOT EXISTS idx_pokedex_kalos_player_id ON player_pokedex_kalos(player_id);
 CREATE INDEX IF NOT EXISTS idx_pokedex_alola_player_id ON player_pokedex_alola(player_id);
 CREATE INDEX IF NOT EXISTS idx_pokedex_galar_player_id ON player_pokedex_galar(player_id);
 CREATE INDEX IF NOT EXISTS idx_pokedex_hisui_player_id ON player_pokedex_hisui(player_id);

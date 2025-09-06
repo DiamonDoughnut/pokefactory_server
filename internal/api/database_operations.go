@@ -1,8 +1,6 @@
 package api
 
 import (
-	"database/sql"
-	"time"
 
 	"pokefactory_server/internal/models"
 )

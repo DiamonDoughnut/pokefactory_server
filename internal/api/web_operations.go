@@ -2,7 +2,6 @@ package api
 
 import (
 	"fmt"
-	"time"
 
 	"pokefactory_server/internal/models"
 )
@@ -26,7 +25,7 @@ func (s *Server) getWebLeaderboardData() ([]models.WebLeaderboard, error) {
 	var leaderboards []models.WebLeaderboard
 	for rows.Next() {
 		var lb models.WebLeaderboard
-		var totalCaught, completionPercent *int
+		var totalCaught *int
 		var completionPercentFloat *float64
 
 		err := rows.Scan(&lb.PlayerID, &lb.Username, &lb.Level, 
