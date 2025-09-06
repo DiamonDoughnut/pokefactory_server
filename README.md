@@ -2,6 +2,8 @@
 
 A secure, scalable REST API backend for managing Pokémon progression data in Minecraft NeoForge servers. Tracks player statistics, Pokédex completion, and provides web dashboard access for community features.
 
+Designed to work in conjunction with the mod in development at https://github.com/DiamonDoughnut/pokefactory-mod
+
 ## Overview
 
 PokéFactory Server bridges Minecraft gameplay with persistent Pokémon data storage, enabling:
