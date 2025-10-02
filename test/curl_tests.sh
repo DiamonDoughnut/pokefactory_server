@@ -10,11 +10,11 @@ echo "=== PokéFactory API Tests ==="
 echo "1. Testing health endpoint..."
 curl -s $API_URL/health | jq '.'
 
-# 2. Server Authentication
+# 2. Server Authentication (change server_id to match your docker-compose yml file)
 echo -e "\n2. Getting server token..."
 SERVER_TOKEN=$(curl -s -X POST $API_URL/api/v1/server/auth \
   -H "Content-Type: application/json" \
-  -d '{"server_id":"test-server-1","server_key":"2cd31515c85f7742a99cbc85adb31477"}' | jq -r '.token')
+  -d '{"server_id":"test_server","server_key":"your-jwt-secret-key"}' | jq -r '.token')
 
 echo "Server token: ${SERVER_TOKEN:0:20}..."
 
