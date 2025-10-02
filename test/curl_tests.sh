@@ -14,7 +14,7 @@ curl -s $API_URL/health | jq '.'
 echo -e "\n2. Getting server token..."
 SERVER_TOKEN=$(curl -s -X POST $API_URL/api/v1/server/auth \
   -H "Content-Type: application/json" \
-  -d '{"server_id":"test-server-1","server_key":"your-jwt-secret"}' | jq -r '.token')
+  -d '{"server_id":"test-server-1","server_key":"2cd31515c85f7742a99cbc85adb31477"}' | jq -r '.token')
 
 echo "Server token: ${SERVER_TOKEN:0:20}..."
 
@@ -46,7 +46,13 @@ curl -s -X POST $API_URL/api/v1/server/pokedex/summary \
   -H "Authorization: Bearer $SERVER_TOKEN" \
   -d '{"player_uuid":"550e8400-e29b-41d4-a716-446655440000"}' | jq '.'
 
-# 7. Web Dashboard Tests
+echo -e "\n6.5. Getting regional pokedex..."
+curl -s -X POST $API_URL/api/v1/server/pokedex/region \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $SERVER_TOKEN" \
+  -d '{"player_uuid":"550e8400-e29b-41d4-a716-44665440000", "region":"kanto"}'
+
+# 8. Web Dashboard Tests
 echo -e "\n7. Testing web leaderboards..."
 curl -s $WEB_URL/api/v1/web/leaderboards | jq '.'
 

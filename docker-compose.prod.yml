@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   backend:
-    image: yourusername/pokefactory-server:latest  # Replace with your Docker Hub image
+    image: diamondoughnut/pokefactory-server:latest  # Replace with your Docker Hub image
     container_name: pokefactory_backend
     environment:
       - DB_HOST=postgres

@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   backend:
-    image: yourusername/pokefactory-server:latest
+    image: diamondoughnut/pokefactory-server:latest
     container_name: pokefactory_backend
     environment:
       - DB_HOST=postgres

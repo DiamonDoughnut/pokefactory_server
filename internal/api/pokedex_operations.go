@@ -69,14 +69,14 @@ func (s *Server) getOrCreatePokedexSummary(playerID int) (*models.PokedexSummary
 
 func (s *Server) getPokedexSummaryByID(playerID int) (*models.PokedexSummary, error) {
 	query := `SELECT id, player_id, total_caught, total_seen, regions_completed, national_completion_percentage, last_updated, created_at FROM player_pokedex_summary WHERE player_id = $1`
-	
+
 	summary := &models.PokedexSummary{}
 	err := s.db.QueryRow(query, playerID).Scan(
 		&summary.ID, &summary.PlayerID, &summary.TotalCaught, &summary.TotalSeen,
 		&summary.RegionsCompleted, &summary.NationalCompletionPercent,
 		&summary.LastUpdated, &summary.CreatedAt,
 	)
-	
+
 	return summary, err
 }
 
@@ -113,14 +113,14 @@ func (s *Server) getRegionalPokedexByID(playerID int, region string) (*models.Re
 	}
 
 	query := fmt.Sprintf(`SELECT id, player_id, caught_flags, seen_flags, completion_date, completion_percentage, created_at, updated_at FROM %s WHERE player_id = $1`, tableName)
-	
+
 	pokedex := &models.RegionalPokedex{}
 	err := s.db.QueryRow(query, playerID).Scan(
 		&pokedex.ID, &pokedex.PlayerID, &pokedex.CaughtFlags, &pokedex.SeenFlags,
 		&pokedex.CompletionDate, &pokedex.CompletionPercentage,
 		&pokedex.CreatedAt, &pokedex.UpdatedAt,
 	)
-	
+
 	return pokedex, err
 }
 
@@ -176,6 +176,10 @@ func (s *Server) updateRegionalFlags(playerID int, region, flagType string, flag
 }
 
 func (s *Server) updatePokedexCompletion(playerID int, region string) error {
+	// Ensure pokedex summary exists for player
+	if _, err := s.getOrCreatePokedexSummary(playerID); err != nil {
+		return err
+	}
 	// Calculate regional completion
 	pokedex, err := s.getRegionalPokedexByID(playerID, region)
 	if err != nil {
@@ -192,7 +196,6 @@ func (s *Server) updatePokedexCompletion(playerID int, region string) error {
 	if _, err := s.db.Exec(query, completionPercent, playerID); err != nil {
 		return err
 	}
-
 	// Update summary
 	return s.updatePokedexSummaryStats(playerID)
 }
@@ -208,13 +211,13 @@ func (s *Server) updatePokedexSummaryStats(playerID int) error {
 		if err != nil {
 			continue
 		}
-		
+
 		caughtCount := countBits(pokedex.CaughtFlags)
 		seenCount := countBits(pokedex.SeenFlags)
-		
+
 		totalCaught += caughtCount
 		totalSeen += seenCount
-		
+
 		if pokedex.CompletionPercentage >= 100.0 {
 			regionsCompleted++
 		}
@@ -227,7 +230,7 @@ func (s *Server) updatePokedexSummaryStats(playerID int) error {
 		SET total_caught = $1, total_seen = $2, regions_completed = $3, 
 		    national_completion_percentage = $4, last_updated = NOW()
 		WHERE player_id = $5`
-	
+
 	_, err := s.db.Exec(query, totalCaught, totalSeen, regionsCompleted, nationalPercent, playerID)
 	return err
 }
@@ -262,16 +265,16 @@ func setBit(data []byte, position int) []byte {
 	if len(data) == 0 {
 		data = make([]byte, (position/8)+1)
 	}
-	
+
 	byteIndex := position / 8
 	bitIndex := position % 8
-	
+
 	if byteIndex >= len(data) {
 		newData := make([]byte, byteIndex+1)
 		copy(newData, data)
 		data = newData
 	}
-	
+
 	data[byteIndex] |= (1 << bitIndex)
 	return data
 }
